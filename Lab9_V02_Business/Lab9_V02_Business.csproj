@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Lab9_V02.DAL\Lab9_V02.DAL.csproj" />
+    <ProjectReference Include="..\Lab9_V02.Domain\Lab9_V02.Domain.csproj" />
+    <ProjectReference Include="..\Lab9_V02.TestData\Lab9_V02.TestData.csproj" />
+  </ItemGroup>
+
+</Project>
