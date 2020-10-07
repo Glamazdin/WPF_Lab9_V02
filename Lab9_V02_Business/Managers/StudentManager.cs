@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab9_V02.Domain.Managers
+namespace Lab9_V02_Business.Managers
 {
     public class StudentManager : BasicManager
     {

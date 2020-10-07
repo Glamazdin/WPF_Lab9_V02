@@ -1,6 +1,5 @@
 ﻿using Lab9_V02_Business.DTO;
 using Lab9_V02_Business.Infrastructure;
-using Lab9_V02_Business.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,16 +28,7 @@ namespace Lab9_V02
         public MainWindow()
         {
             InitializeComponent();
-            //factory = new ServiceFactory();
-            //groupService = factory.GetGroupService();
-            //groups = groupService.GetAllGroups().Result;
-            //Groups.DataContext = groups;
-            //var a = 0;
         }
 
-        private void Groups_Selected()
-        {
-
-        }
     }
 }

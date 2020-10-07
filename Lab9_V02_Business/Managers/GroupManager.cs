@@ -1,5 +1,7 @@
-﻿using Lab9_V02.Domain.Entities;
+﻿using AutoMapper;
+using Lab9_V02.Domain.Entities;
 using Lab9_V02.Domain.Interfaces;
+using Lab9_V02_Business.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,16 +9,25 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lab9_V02.Domain.Managers
+namespace Lab9_V02_Business.Managers
 {
     public class GroupManager:BasicManager
     {
         public GroupManager(IUnitOfWork untOfWork) : base(untOfWork)
         {
         }
-        #region bacic CRUD operations
-        public Group CreateGroup(Group group)
+        
+        public IEnumerable<Group> Groups
         {
+            get => groupRepository.GetAll();
+        }
+
+
+        public Group GetById(int id) => groupRepository.Get(id);
+           
+
+        public Group CreateGroup(Group group)
+        {            
             groupRepository.Create(group);
             unitOfWork.SaveChanges();
             return group;
@@ -27,21 +38,12 @@ namespace Lab9_V02.Domain.Managers
             if (!result) return false;
             unitOfWork.SaveChanges();
             return true;
-        }
-        public IQueryable<Group> FindGroup(Expression<Func<Group, bool>> predicate) =>
-            groupRepository.Find(predicate);
-        
-        public Group GetGroupById(int id)=>        
-            groupRepository.Get(id);
-
-        public IQueryable<Group> GetAllGroups() =>
-            groupRepository.GetAll();
+        }      
         public void UpdateGroup(Group group)
         {
             groupRepository.Update(group);
             unitOfWork.SaveChanges();            
         }
-        #endregion
 
         public ICollection<Student> AddStudentToGroup(Student student, int groupId)
         {

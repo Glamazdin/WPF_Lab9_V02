@@ -1,6 +1,5 @@
 ﻿using Lab9_V02_Business.DTO;
 using Lab9_V02_Business.Infrastructure;
-using Lab9_V02_Business.Services;
 using Lab9_V02.Commands;
 using System;
 using System.Collections.Generic;
@@ -8,21 +7,23 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Lab9_V02_Business.Managers;
+using Lab9_V02.Domain.Entities;
 
 namespace Lab9_V02.ViewModels
 {
     public class MainWindowViewModel:ViewModelBase
     {
-        ServiceFactory factory;
-        GroupService groupService;
+        ManagersFactory factory;
+        GroupManager groupManager;
         #region Public properties
-        public ObservableCollection<GroupDTO> Groups { get; set; }
-        public ObservableCollection<StudentDTO> Students { get; set; }
+        public ObservableCollection<Group> Groups { get; set; }
+        public ObservableCollection<Student> Students { get; set; }
         public string Title { get => title; set => title = value; }
 
         #region Выбранная группа
-        private GroupDTO _selectedGroup;
-        public GroupDTO SelectedGroup
+        private Group _selectedGroup;
+        public Group SelectedGroup
         {
             get => _selectedGroup;
             set
@@ -43,7 +44,7 @@ namespace Lab9_V02.ViewModels
         private void OnGroupSelectedExecuted(object id)
         {                  
             Students.Clear();
-            var students = groupService.GetStudentsByGroup((int)id);
+            var students = groupManager.GetStudentsOfGroup((int)id);
             foreach (var student in students)
             Students.Add(student);  
         }
@@ -58,10 +59,10 @@ namespace Lab9_V02.ViewModels
         private string title = "Groups Window";
         public MainWindowViewModel()
         {
-            factory = new ServiceFactory("DefaultConnection");
-            groupService = factory.GetGroupService();
-            Groups = new ObservableCollection<GroupDTO>(groupService.GetAllGroups());
-            Students = new ObservableCollection<StudentDTO>();
+            factory = new ManagersFactory("DefaultConnection");
+            groupManager = factory.GetGroupManager();
+            Groups = new ObservableCollection<Group>(groupManager.Groups);
+            Students = new ObservableCollection<Student>();
             if(Groups.Count>0)
                 OnGroupSelectedExecuted(Groups[0].GroupId);
         }
