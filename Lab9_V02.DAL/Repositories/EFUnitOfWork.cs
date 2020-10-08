@@ -21,13 +21,13 @@ namespace Lab9_V02.DAL.Repositories
                 .UseSqlServer(connectionString)
                 .Options;                
             context = new CourcesContext(options);
-            SeedDb();
-        }
-
-        private void SeedDb()
-        {
             context.Database.EnsureCreated();
         }
+
+        //private void SeedDb()
+        //{
+        //    context.Database.EnsureCreated();
+        //}
 
         public IRepository<Student> StudentsRepository =>
             studentsRepository ?? new EfStudentRepository(context);
@@ -36,7 +36,7 @@ namespace Lab9_V02.DAL.Repositories
        
         public void SaveChanges()
         {
-            context.SaveChangesAsync();
+            context.SaveChanges();
         }
 
        

@@ -1,5 +1,4 @@
-﻿using Lab9_V02_Business.DTO;
-using Lab9_V02_Business.Infrastructure;
+﻿using Lab9_V02_Business.Infrastructure;
 using Lab9_V02.Commands;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Lab9_V02_Business.Managers;
 using Lab9_V02.Domain.Entities;
+using System.Linq;
 
 namespace Lab9_V02.ViewModels
 {
@@ -61,6 +61,7 @@ namespace Lab9_V02.ViewModels
         {
             factory = new ManagersFactory("DefaultConnection");
             groupManager = factory.GetGroupManager();
+            if (groupManager.Groups.Count() == 0) DbTestData.SetupData(groupManager);
             Groups = new ObservableCollection<Group>(groupManager.Groups);
             Students = new ObservableCollection<Student>();
             if(Groups.Count>0)

@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using Lab9_V02.Domain.Entities;
+﻿using Lab9_V02.Domain.Entities;
 using Lab9_V02.Domain.Interfaces;
-using Lab9_V02_Business.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +30,11 @@ namespace Lab9_V02_Business.Managers
             unitOfWork.SaveChanges();
             return group;
         }
+        public void CreateGroup(List<Group> groups)
+        {
+            groups.ForEach(g => groupRepository.Create(g));  //groups. f groupRepository.Create(group);
+            unitOfWork.SaveChanges();            
+        }
         public bool DeleteGroup(int id)
         {
             var result = groupRepository.Delete(id);
@@ -45,9 +48,12 @@ namespace Lab9_V02_Business.Managers
             unitOfWork.SaveChanges();            
         }
 
-        public ICollection<Student> AddStudentToGroup(Student student, int groupId)
-        {
+        public ICollection<Student> AddStudentToGroup(Student student, int groupId, bool hasDiscount)
+        {            
             var group = groupRepository.Get(groupId, "Students");
+            student.IndividualPrice = hasDiscount
+                ? group.BasePrice * (decimal)0.8
+                : group.BasePrice;
             group.Students.Add(student);
             groupRepository.Update(group);
             unitOfWork.SaveChanges();
