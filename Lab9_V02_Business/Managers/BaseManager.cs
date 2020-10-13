@@ -9,12 +9,12 @@ using System.Text;
 
 namespace Lab9_V02_Business.Managers
 {
-    public class BasicManager
+    public class BaseManager
     {
         protected readonly IUnitOfWork unitOfWork;
         protected readonly IRepository<Student> studentRepository;
         protected readonly IRepository<Group> groupRepository;       
-        public BasicManager(IUnitOfWork unitOfWork)
+        public BaseManager(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;           
             studentRepository = unitOfWork.StudentsRepository;

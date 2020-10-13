@@ -12,7 +12,7 @@ namespace Lab9_V02_Business.Infrastructure
     {
         public static void SetupData(GroupManager groupManager)
         {
-            groupManager.CreateGroup(new List<Group>
+            groupManager.AddRange(new List<Group>
             {
                 new Group
                 {

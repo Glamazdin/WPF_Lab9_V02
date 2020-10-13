@@ -22,8 +22,8 @@ namespace Lab9_V02_Business.Infrastructure
         public ManagersFactory()
         {
             unitOfWork = new TestUnitOfWork();
-            studentManager = new StudentManager(unitOfWork);
-            groupManager = new GroupManager(unitOfWork);
+            //studentManager = new StudentManager(unitOfWork);
+            //groupManager = new GroupManager(unitOfWork);
         }
         public ManagersFactory(string connectionString)
         {

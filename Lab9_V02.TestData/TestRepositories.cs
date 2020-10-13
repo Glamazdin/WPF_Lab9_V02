@@ -9,10 +9,13 @@ using System.Threading.Tasks;
 
 
 namespace Lab9_V02.TestData
-{
+{    
+    /// <summary>
+    /// Тестовый репозиторий студентов
+    /// Для проверки проекта методы интерфейса IRepository можно не реализовывать явно
+    /// </summary>
     class StudentTestRepo : IRepository<Student>
-    {       
-        
+    {               
         public void Create(Student entity)
         {
             throw new NotImplementedException();
@@ -44,15 +47,24 @@ namespace Lab9_V02.TestData
         }
     }
 
+    /// <summary>
+    /// Тестовый репозиторий групп
+    /// Для проверки проекта достаточно реализовать методы Get и GetAll
+    /// </summary>
     class GroupTestRepo : IRepository<Group>
     {
+        /// <summary>
+        /// Список групп для тестирования прилождения
+        /// </summary>
         List<Group> groups;
         public GroupTestRepo()
         {
             groups = new List<Group>();
-            SetupData();
+            SetupData(); // сгенерировать тестовые данные
         }
-
+        /// <summary>
+        /// Метод, генерирующий тестовые данные
+        /// </summary>
         private void SetupData()
         {
             var s = 1;

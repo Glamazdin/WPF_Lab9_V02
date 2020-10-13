@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace Lab9_V02_Business.Managers
 {
-    public class GroupManager:BasicManager
+    public class GroupManager:BaseManager
     {
         public GroupManager(IUnitOfWork untOfWork) : base(untOfWork)
         {
         }
-        
+        /// <summary>
+        /// Общий список групп
+        /// </summary>
         public IEnumerable<Group> Groups
         {
             get => groupRepository.GetAll();
@@ -23,32 +25,51 @@ namespace Lab9_V02_Business.Managers
 
         public Group GetById(int id) => groupRepository.Get(id);
            
-
+        // Создание группы
         public Group CreateGroup(Group group)
         {            
             groupRepository.Create(group);
             unitOfWork.SaveChanges();
             return group;
         }
-        public void CreateGroup(List<Group> groups)
+        /// <summary>
+        /// Добавление групп из списка
+        /// </summary>
+        /// <param name="groups"></param>
+        public void AddRange(List<Group> groups)
         {
-            groups.ForEach(g => groupRepository.Create(g));  //groups. f groupRepository.Create(group);
+            groups.ForEach(g => groupRepository.Create(g));
             unitOfWork.SaveChanges();            
         }
+        /// <summary>
+        /// Удаление группы
+        /// </summary>
+        /// <param name="id">Id удаляемой группы</param>
+        /// <returns></returns>
         public bool DeleteGroup(int id)
         {
             var result = groupRepository.Delete(id);
             if (!result) return false;
             unitOfWork.SaveChanges();
             return true;
-        }      
+        }  
+        /// <summary>
+        /// Редактирование группы
+        /// </summary>
+        /// <param name="group">Обновленный объект группы</param>
         public void UpdateGroup(Group group)
         {
             groupRepository.Update(group);
             unitOfWork.SaveChanges();            
         }
-
-        public ICollection<Student> AddStudentToGroup(Student student, int groupId, bool hasDiscount)
+        /// <summary>
+        /// Добавление студента в группу
+        /// </summary>
+        /// <param name="student">Добавляемый объект</param>
+        /// <param name="groupId">Id группы</param>
+        /// <param name="hasDiscount">Наличие скидки у студента</param>
+        /// <returns></returns>
+        public void AddStudentToGroup(Student student, int groupId, bool hasDiscount)
         {            
             var group = groupRepository.Get(groupId, "Students");
             student.IndividualPrice = hasDiscount
@@ -56,17 +77,27 @@ namespace Lab9_V02_Business.Managers
                 : group.BasePrice;
             group.Students.Add(student);
             groupRepository.Update(group);
-            unitOfWork.SaveChanges();
-            return group.Students;
+            unitOfWork.SaveChanges();            
         }
-        public ICollection<Student> RemoveStudentFromGroup(Student student, int groupId)
+        /// <summary>
+        /// Удаление студента из группы
+        /// </summary>
+        /// <param name="student">Удаляемый объект</param>
+        /// <param name="groupId">Id группы</param>
+        public void RemoveStudentFromGroup(Student student, int groupId)
         {
             var group = groupRepository.Get(groupId, "Students");
             group.Students.Remove(student);
+            student.IndividualPrice = 0;
             groupRepository.Update(group);
-            unitOfWork.SaveChanges();
-            return group.Students;
+            studentRepository.Update(student);
+            unitOfWork.SaveChanges();            
         }
+        /// <summary>
+        /// Получение списка студентов группы
+        /// </summary>
+        /// <param name="groupId">Id группы</param>
+        /// <returns></returns>
         public ICollection<Student> GetStudentsOfGroup(int groupId)
         {
             var group = groupRepository.Get(groupId, "Students");
