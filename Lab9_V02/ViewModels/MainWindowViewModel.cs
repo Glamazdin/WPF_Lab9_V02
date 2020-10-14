@@ -17,7 +17,13 @@ namespace Lab9_V02.ViewModels
         ManagersFactory factory;
         GroupManager groupManager;
         #region Public properties
+        /// <summary>
+        /// Список групп
+        /// </summary>
         public ObservableCollection<Group> Groups { get; set; }
+        /// <summary>
+        /// Список студентов группы
+        /// </summary>
         public ObservableCollection<Student> Students { get; set; }
         public string Title { get => title; set => title = value; }
 
@@ -35,13 +41,16 @@ namespace Lab9_V02.ViewModels
         #endregion
 
         #region Commands
-
         #region Выбор группы в списке
-        private ICommand _selectGroupCommand;
-        public ICommand SelectGroupCommand =>
-            _selectGroupCommand ?? new RelayCommand(OnGroupSelectedExecuted);
+        private ICommand _getStudentsCommand;
+        public ICommand GetStudentsCommand =>
+            _getStudentsCommand ?? new RelayCommand(OnGetStudentExecuted);
 
-        private void OnGroupSelectedExecuted(object id)
+        /// <summary>
+        /// делегат для метода Execute команды GetStudentsCommand
+        /// </summary>
+        /// <param name="id">Id группы</param>
+        private void OnGetStudentExecuted(object id)
         {                  
             Students.Clear();
             var students = groupManager.GetStudentsOfGroup((int)id);
@@ -49,23 +58,23 @@ namespace Lab9_V02.ViewModels
             Students.Add(student);  
         }
         #endregion
-
-
-
-
-
         #endregion
 
         private string title = "Groups Window";
         public MainWindowViewModel()
         {
-            factory = new ManagersFactory("DefaultConnection");
+            //factory = new ManagersFactory("DefaultConnection");
+            //groupManager = factory.GetGroupManager();
+            //if (groupManager.Groups.Count() == 0) DbTestData.SetupData(groupManager);
+            //Groups = new ObservableCollection<Group>(groupManager.Groups);
+            //Students = new ObservableCollection<Student>();
+            //if(Groups.Count>0)
+            //    OnGroupSelectedExecuted(Groups[0].GroupId);
+
+            factory = new ManagersFactory();
             groupManager = factory.GetGroupManager();
-            if (groupManager.Groups.Count() == 0) DbTestData.SetupData(groupManager);
             Groups = new ObservableCollection<Group>(groupManager.Groups);
             Students = new ObservableCollection<Student>();
-            if(Groups.Count>0)
-                OnGroupSelectedExecuted(Groups[0].GroupId);
         }
     }
 }

@@ -34,7 +34,7 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction 
-                                Command="{Binding SelectGroupCommand}" 
+                                Command="{Binding GetStudentsCommand}" 
                                 CommandParameter="{Binding SelectedGroup.GroupId}">
                             </i:InvokeCommandAction>
                         </i:EventTrigger>
