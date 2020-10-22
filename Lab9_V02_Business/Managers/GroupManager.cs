@@ -101,10 +101,7 @@ namespace Lab9_V02_Business.Managers
         /// </summary>
         /// <param name="groupId">Id группы</param>
         /// <returns></returns>
-        public ICollection<Student> GetStudentsOfGroup(int groupId)
-        {
-            var group = groupRepository.Get(groupId, "Students");
-            return group.Students;
-        }
+        public ICollection<Student> GetStudentsOfGroup(int groupId) =>
+            studentRepository.Find(s => s.GroupId == groupId).ToList();        
     }
 }

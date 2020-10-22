@@ -14,7 +14,15 @@
     <Window.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="5,5,5,5"/>
-
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderThickness" Value="2"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -26,7 +34,7 @@
             <ColumnDefinition></ColumnDefinition>            
         </Grid.ColumnDefinitions>
         <DockPanel >            
-            <GroupBox Header="Список групп" Margin="2" Padding="2" MinWidth="200">
+            <GroupBox Header="Список групп" Padding="2" MinWidth="200">
                 <ListView x:Name="Groups" 
                       ItemsSource="{Binding Groups}" 
                       SelectedValue="{Binding SelectedGroup}" SelectedIndex="0">
@@ -47,7 +55,7 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </GroupBox >
-            <GroupBox Header="Oписание" Margin="2" Padding="2">
+            <GroupBox Header="Oписание" Padding="2">
                 <!--#region Таблица -->
                 <Grid DataContext="{Binding SelectedGroup}">
                     <Grid.RowDefinitions>
@@ -77,15 +85,37 @@
             </GroupBox>
         </DockPanel>
         <DockPanel Grid.Row="1">
-            <GroupBox Header="Список студентов" Margin="2" Padding="2">
+            <GroupBox Header="Список студентов" Padding="2" DockPanel.Dock="Left">
                 <ListView x:Name="Students" 
                       ItemsSource="{Binding Students}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding FullName}"/>
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Width="50"
+                                       Source="{Binding ImageFileName}"/>
+                                <StackPanel Grid.Column="1">                                    
+                                    <TextBlock Text="{Binding FullName}" Margin="30,0,0,0"/>
+                                    <TextBlock Text="{Binding DateOfBirth,
+                                        StringFormat={}{0:dd.MM.yyyy г.р.}}"
+                                               Margin="30,0,0,0"/>
+                                </StackPanel>
+                            </Grid>
                         </DataTemplate>
+                        
                     </ListView.ItemTemplate>
                 </ListView>
+            </GroupBox>
+            <GroupBox Width="Auto" HorizontalAlignment="Right">
+                <StackPanel >
+                    <Button>Добавить студента</Button>
+                    <Button>Редактировать</Button>
+                    <Button>Удалить</Button>
+                </StackPanel>
+                
             </GroupBox>
         </DockPanel>
 

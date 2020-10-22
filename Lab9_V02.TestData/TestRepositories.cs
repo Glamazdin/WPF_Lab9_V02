@@ -2,6 +2,7 @@
 using Lab9_V02.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -15,7 +16,12 @@ namespace Lab9_V02.TestData
     /// Для проверки проекта методы интерфейса IRepository можно не реализовывать явно
     /// </summary>
     class StudentTestRepo : IRepository<Student>
-    {               
+    {
+        private readonly List<Student> students;
+        public StudentTestRepo(List<Student> students)
+        {
+            this.students = students;
+        }
         public void Create(Student entity)
         {
             throw new NotImplementedException();
@@ -28,7 +34,8 @@ namespace Lab9_V02.TestData
 
         public IQueryable<Student> Find(Expression<Func<Student, bool>> predicate)
         {
-            throw new NotImplementedException();
+            Func<Student, bool> filter = predicate.Compile();            
+            return students.Where(filter).AsQueryable();
         }
 
         public Student Get(int id, params string[] includes)
@@ -56,10 +63,10 @@ namespace Lab9_V02.TestData
         /// <summary>
         /// Список групп для тестирования прилождения
         /// </summary>
-        List<Group> groups;
-        public GroupTestRepo()
+        private readonly List<Group> groups;
+        public GroupTestRepo(List<Group> groups)
         {
-            groups = new List<Group>();
+            this.groups = groups;
             SetupData(); // сгенерировать тестовые данные
         }
         /// <summary>

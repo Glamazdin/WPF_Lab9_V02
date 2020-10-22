@@ -11,12 +11,24 @@ namespace Lab9_V02.TestData
     {
         private IRepository<Student> studentsRepository;
         private IRepository<Group> groupsRepository;
+        private List<Group> groups;
+        private List<Student> students;
+
+        public TestUnitOfWork()
+        {
+            groups = new List<Group>();
+            students = new List<Student>();
+            groupsRepository = new GroupTestRepo(groups);
+            foreach (var group in groups)
+                students.AddRange(group.Students);
+            studentsRepository = new StudentTestRepo(students);
+        }
 
         public IRepository<Student> StudentsRepository =>
-            studentsRepository ?? new StudentTestRepo();
+            studentsRepository;
 
         public IRepository<Group> GroupsRepository =>
-            groupsRepository ?? new GroupTestRepo();
+            groupsRepository;
 
         public void SaveChanges()
         {

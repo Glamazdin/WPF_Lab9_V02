@@ -38,10 +38,12 @@ namespace Lab9_V02.DAL.Repositories
 
         public Group Get(int id, params string[] includes)
         {
-            var query = groups as IQueryable<Group>;
+            IQueryable<Group> query = groups;
+            
             foreach (var include in includes)
-                query.Include(include);            
-            return query.First(g=>g.GroupId == id);
+                query = query.Include(include);      
+                  
+            return query.First(g=>g.GroupId==id);
         }
 
         public IQueryable<Group> GetAll()
