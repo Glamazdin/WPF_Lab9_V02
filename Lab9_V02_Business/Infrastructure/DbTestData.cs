@@ -12,6 +12,7 @@ namespace Lab9_V02_Business.Infrastructure
     {
         public static void SetupData(GroupManager groupManager)
         {
+            // Добавление групп
             groupManager.AddRange(new List<Group>
             {
                 new Group
@@ -30,7 +31,7 @@ namespace Lab9_V02_Business.Infrastructure
 
 
             var groups = groupManager.Groups.ToArray();
-
+            // Добавление студентов
             groupManager.AddStudentToGroup(
                     new Student
                     {

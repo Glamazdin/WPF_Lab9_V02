@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Lab9_V02_Business.Managers;
 using Lab9_V02.Domain.Entities;
+using System.Windows;
 using System.Linq;
 
 namespace Lab9_V02.ViewModels
@@ -55,7 +56,7 @@ namespace Lab9_V02.ViewModels
             Students.Clear();
             var students = groupManager.GetStudentsOfGroup((int)id);
             foreach (var student in students)
-            Students.Add(student);  
+                Students.Add(student);
         }
         #endregion
         #endregion
@@ -63,18 +64,21 @@ namespace Lab9_V02.ViewModels
         private string title = "Groups Window";
         public MainWindowViewModel()
         {
-            //factory = new ManagersFactory("DefaultConnection");
-            //groupManager = factory.GetGroupManager();
-            //if (groupManager.Groups.Count() == 0) DbTestData.SetupData(groupManager);
-            //Groups = new ObservableCollection<Group>(groupManager.Groups);
-            //Students = new ObservableCollection<Student>();
-            //if(Groups.Count>0)
-            //    OnGroupSelectedExecuted(Groups[0].GroupId);
-
-            factory = new ManagersFactory();
+            factory = new ManagersFactory("DefaultConnection");
             groupManager = factory.GetGroupManager();
+            //Инициализация базы данных
+            if (groupManager.Groups.Count() == 0) 
+                DbTestData.SetupData(groupManager);
             Groups = new ObservableCollection<Group>(groupManager.Groups);
             Students = new ObservableCollection<Student>();
+            //Получение списка студентов для первой группы
+            if (Groups.Count > 0)
+                OnGetStudentExecuted(Groups[0].GroupId);
+
+            //factory = new ManagersFactory();
+            //groupManager = factory.GetGroupManager();
+            //Groups = new ObservableCollection<Group>(groupManager.Groups);
+            //Students = new ObservableCollection<Student>();
         }
     }
 }

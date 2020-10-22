@@ -25,16 +25,14 @@ namespace Lab9_V02_Business.Infrastructure
             //studentManager = new StudentManager(unitOfWork);
             //groupManager = new GroupManager(unitOfWork);
         }
-        public ManagersFactory(string connectionString)
+        public ManagersFactory(string connStringName)
         {
             configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-            var connString = configuration.GetConnectionString("DefaultConnection");
-            unitOfWork = new EFUnitOfWork(connString);
-            //studentManager = new StudentManager(unitOfWork);
-            //groupManager = new GroupManager(unitOfWork);
+            var connString = configuration.GetConnectionString(connStringName);
+            unitOfWork = new EFUnitOfWork(connString);            
         }
 
         public StudentManager GetSudentManager()

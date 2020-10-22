@@ -71,12 +71,15 @@ namespace Lab9_V02_Business.Managers
         /// <returns></returns>
         public void AddStudentToGroup(Student student, int groupId, bool hasDiscount)
         {            
-            var group = groupRepository.Get(groupId, "Students");
+            var group = groupRepository.Get(groupId);
             student.IndividualPrice = hasDiscount
                 ? group.BasePrice * (decimal)0.8
                 : group.BasePrice;
-            group.Students.Add(student);
-            groupRepository.Update(group);
+            //group.Students.Add(student);
+            student.GroupId = groupId;
+            if (student.StudentId <= 0)
+                studentRepository.Create(student);
+            else studentRepository.Update(student);
             unitOfWork.SaveChanges();            
         }
         /// <summary>

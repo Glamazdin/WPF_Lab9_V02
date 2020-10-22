@@ -19,7 +19,7 @@ namespace Lab9_V02.DAL.Repositories
         public EfStudentRepository(CourcesContext context)
         {
             this.context = context;
-            students = this.context.Students;
+            students = context.Students;
         }
         public void Create(Student student)
         {
@@ -61,7 +61,7 @@ namespace Lab9_V02.DAL.Repositories
 
         public void Update(Student student)
         {
-            context.Entry<Student>(student).State=EntityState.Modified;            
+            students.Update(student);            
         }
     }
 }

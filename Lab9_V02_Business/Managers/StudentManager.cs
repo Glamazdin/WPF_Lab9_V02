@@ -15,12 +15,12 @@ namespace Lab9_V02_Business.Managers
         {
         }
         #region bacic CRUD operations
-        //public Student CreateStudent(Student student)
-        //{
-        //    studentRepository.Create(student);
-        //    unitOfWork.SaveChanges();
-        //    return student;
-        //}
+        public Student CreateStudent(Student student)
+        {
+            studentRepository.Create(student);
+            unitOfWork.SaveChanges();
+            return student;
+        }
         public bool DeleteStudent(int id)
         {                      
             var result = studentRepository.Delete(id);

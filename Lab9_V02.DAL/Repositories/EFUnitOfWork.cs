@@ -2,10 +2,6 @@
 using Lab9_V02.Domain.Entities;
 using Lab9_V02.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Lab9_V02.DAL.Repositories
 {
@@ -23,12 +19,7 @@ namespace Lab9_V02.DAL.Repositories
             context = new CourcesContext(options);
             context.Database.EnsureCreated();
         }
-
-        //private void SeedDb()
-        //{
-        //    context.Database.EnsureCreated();
-        //}
-
+       
         public IRepository<Student> StudentsRepository =>
             studentsRepository ?? new EfStudentRepository(context);
         public IRepository<Group> GroupsRepository =>
@@ -37,8 +28,6 @@ namespace Lab9_V02.DAL.Repositories
         public void SaveChanges()
         {
             context.SaveChanges();
-        }
-
-       
+        }       
     }
 }
