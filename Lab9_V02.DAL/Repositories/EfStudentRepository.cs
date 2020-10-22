@@ -48,10 +48,12 @@ namespace Lab9_V02.DAL.Repositories
 
         public Student Get(int id, params string[] includes)
         {
-            var include = includes.Aggregate((a,b)=>$"{a}.{b}");
-            return students
-                            .Include(include)
-                            .First(s => s.StudentId == id);                                                    
+            IQueryable<Student> query = students;
+
+            foreach (var include in includes)
+                query = query.Include(include);
+
+            return query.First(s => s.StudentId == id);       
         }
 
         public IQueryable<Student> GetAll()

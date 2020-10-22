@@ -64,21 +64,21 @@ namespace Lab9_V02.ViewModels
         private string title = "Groups Window";
         public MainWindowViewModel()
         {
-            //factory = new ManagersFactory("DefaultConnection");
-            //groupManager = factory.GetGroupManager();
-            ////Инициализация базы данных
-            //if (groupManager.Groups.Count() == 0) 
-            //    DbTestData.SetupData(groupManager);
-            //Groups = new ObservableCollection<Group>(groupManager.Groups);
-            //Students = new ObservableCollection<Student>();
-            ////Получение списка студентов для первой группы
-            //if (Groups.Count > 0)
-            //    OnGetStudentExecuted(Groups[0].GroupId);
-
-            factory = new ManagersFactory();
+            factory = new ManagersFactory("DefaultConnection");
             groupManager = factory.GetGroupManager();
+            //Инициализация базы данных
+            if (groupManager.Groups.Count() == 0)
+                DbTestData.SetupData(groupManager);
             Groups = new ObservableCollection<Group>(groupManager.Groups);
             Students = new ObservableCollection<Student>();
+            //Получение списка студентов для первой группы
+            if (Groups.Count > 0)
+                OnGetStudentExecuted(Groups[0].GroupId);
+
+            //factory = new ManagersFactory();
+            //groupManager = factory.GetGroupManager();
+            //Groups = new ObservableCollection<Group>(groupManager.Groups);
+            //Students = new ObservableCollection<Student>();
         }
     }
 }
