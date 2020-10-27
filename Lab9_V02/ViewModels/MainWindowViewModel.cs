@@ -10,6 +10,7 @@ using Lab9_V02_Business.Managers;
 using Lab9_V02.Domain.Entities;
 using System.Windows;
 using System.Linq;
+using System.IO;
 
 namespace Lab9_V02.ViewModels
 {
@@ -17,6 +18,7 @@ namespace Lab9_V02.ViewModels
     {
         ManagersFactory factory;
         GroupManager groupManager;
+        StudentManager studentManager;
         #region Public properties
         /// <summary>
         /// Список групп
@@ -39,10 +41,22 @@ namespace Lab9_V02.ViewModels
             }
         }
         #endregion
+
+        #region Выбранный студент
+        private Student _selectedStudent;
+        public Student SelectedStudent
+        {
+            get => _selectedStudent;
+            set
+            {
+                Set(ref _selectedStudent, value);
+            }
+        }
+        #endregion
         #endregion
 
         #region Commands
-        #region Выбор группы в списке
+        #region Получение списка студентов группы
         private ICommand _getStudentsCommand;
         public ICommand GetStudentsCommand =>
             _getStudentsCommand ?? new RelayCommand(OnGetStudentExecuted);
@@ -59,6 +73,82 @@ namespace Lab9_V02.ViewModels
                 Students.Add(student);
         }
         #endregion
+
+        #region Добавление студента
+        private ICommand _newStudentCommand;
+        public ICommand NewStudentCommand =>
+            _newStudentCommand??new RelayCommand(OnNewStudentExecuted);
+
+        private void OnNewStudentExecuted(object id)
+        {
+            var dialog = new EditStudentWindow {                
+                DateOfBirth=DateTime.Now
+            };
+            
+            if (dialog.ShowDialog() != true) return;
+            var student = new Student
+            {
+                FullName = dialog.FullName,
+                DateOfBirth = dialog.DateOfBirth                
+            };
+            var fileName = Path.GetFileName(dialog.ImagePass);
+            student.ImageFileName= fileName;
+            groupManager.AddStudentToGroup(student, _selectedGroup.GroupId, dialog.HasDiscount);
+            
+            var target = Path.Combine(Directory.GetCurrentDirectory(), "Images", fileName);
+            File.Copy(dialog.ImagePass, target);
+            
+            Students.Add(student);
+        }
+        #endregion
+
+        #region Редактирование студента
+        private ICommand _editStudentCommand;
+        public ICommand EditStudentCommand =>
+            _editStudentCommand ?? 
+                new RelayCommand(OnEditStudentExecuted, EditStudentCanExecute);
+        // Проверка возможности редактирования
+        private bool EditStudentCanExecute(object p) =>
+            _selectedStudent != null;
+        
+        private void OnEditStudentExecuted(object id)
+        {
+            var dialog = new EditStudentWindow
+            {
+                FullName=_selectedStudent.FullName,
+                DateOfBirth = _selectedStudent.DateOfBirth,
+                ImagePass = _selectedStudent.ImageFileName,
+                HasDiscount=_selectedGroup.BasePrice>_selectedStudent.IndividualPrice
+            };
+
+            if (dialog.ShowDialog() != true) return;
+            
+            // Путь к папке Images
+            var imageFolderPass = Path.Combine(Directory.GetCurrentDirectory(), "Images");
+            // Если выбрано новое изображение
+            if(!_selectedStudent.ImageFileName.Equals(dialog.ImagePass))
+            {
+                // Удалить старое изображение
+                File.Delete(Path.Combine(imageFolderPass, _selectedStudent.ImageFileName));
+                // Получить имя нового файла изображения
+                var newImage = Path.GetFileName(dialog.ImagePass);
+                // Скопировать файл в папку Images
+                File.Copy(dialog.ImagePass, Path.Combine(imageFolderPass, newImage));
+                _selectedStudent.ImageFileName = newImage;
+            }
+            // Вычисление индивидуальной стоимости обучения
+            _selectedStudent.IndividualPrice=dialog.HasDiscount
+                ?_selectedGroup.BasePrice*0.8m
+                :_selectedGroup.BasePrice;
+            _selectedStudent.FullName = dialog.FullName;
+            _selectedStudent.DateOfBirth = dialog.DateOfBirth;
+            studentManager.UpdateStudent(_selectedStudent);
+            // Обновить список студентов
+            OnGetStudentExecuted(_selectedGroup.GroupId); 
+        }
+
+        #endregion
+
         #endregion
 
         private string title = "Groups Window";
@@ -66,6 +156,7 @@ namespace Lab9_V02.ViewModels
         {
             factory = new ManagersFactory("DefaultConnection");
             groupManager = factory.GetGroupManager();
+            studentManager = factory.GetSudentManager();
             //Инициализация базы данных
             if (groupManager.Groups.Count() == 0)
                 DbTestData.SetupData(groupManager);
