@@ -5,6 +5,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Lab9_V02.DAL.Repositories
 {
@@ -22,7 +23,7 @@ namespace Lab9_V02.DAL.Repositories
         {
             groups.Add(entity);
         }
-
+        
         public bool Delete(int id)
         {
             var group = groups.Find(id);
@@ -34,8 +35,8 @@ namespace Lab9_V02.DAL.Repositories
         public IQueryable<Group> Find(Expression<Func<Group, bool>> predicate)
         {
             throw new NotImplementedException();
-        }        
-
+        }
+       
         public Group Get(int id, params string[] includes)
         {
             IQueryable<Group> query = groups;
@@ -54,6 +55,6 @@ namespace Lab9_V02.DAL.Repositories
         public void Update(Group entity)
         {            
             groups.Update(entity);            
-        }
+        }       
     }
 }

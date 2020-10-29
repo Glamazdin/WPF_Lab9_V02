@@ -7,6 +7,7 @@
         xmlns:vm="clr-namespace:Lab9_V02.ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:inf="clr-namespace:Lab9_V02.Infrastructure"
+        xmlns:fas="http://schemas.fontawesome.com/icons/"
         mc:Ignorable="d"
         Title="{Binding Title}" Height="450" Width="714">
     <Window.DataContext>
@@ -26,6 +27,7 @@
             <Setter Property="Margin" Value="2"/>
             <Setter Property="Padding" Value="5"/>
             <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Width" Value="100"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -121,9 +123,18 @@
             </GroupBox>
             <GroupBox Width="Auto" HorizontalAlignment="Right">
                 <StackPanel >
-                    <Button Command="{Binding NewStudentCommand}">Добавить студента</Button>
-                    <Button Command="{Binding EditStudentCommand}">Редактировать</Button>
-                    <Button>Удалить</Button>
+                    <Button Command="{Binding NewStudentCommand}">
+                        <fas:FontAwesome Icon="Solid_UserPlus" 
+                                         Foreground="Green" FontSize="18"/>
+                    </Button>
+                    <Button Command="{Binding EditStudentCommand}">
+                        <fas:FontAwesome Icon="Solid_UserEdit"
+                                         Foreground="blue" FontSize="18"/>
+                    </Button>
+                    <Button>
+                        <fas:FontAwesome Icon="Solid_UserMinus"
+                                         Foreground="red" FontSize="18"/>
+                    </Button>
                 </StackPanel>
                 
             </GroupBox>

@@ -23,8 +23,8 @@ namespace Lab9_V02.DAL.Repositories
         }
         public void Create(Student student)
         {
-            students.AddAsync(student);
-        }
+            students.Add(student);
+        }       
 
         public bool Delete(int id)
         {
@@ -45,7 +45,7 @@ namespace Lab9_V02.DAL.Repositories
         {
             return students.Where(predicate);
         }
-
+       
         public Student Get(int id, params string[] includes)
         {
             IQueryable<Student> query = students;
@@ -65,5 +65,7 @@ namespace Lab9_V02.DAL.Repositories
         {
             students.Update(student);            
         }
+
+       
     }
 }
