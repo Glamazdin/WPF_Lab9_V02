@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Lab9_V02.DAL.Repositories
 {
@@ -43,9 +44,19 @@ namespace Lab9_V02.DAL.Repositories
 
         public IQueryable<Student> Find(Expression<Func<Student, bool>> predicate)
         {
+            Thread.Sleep(5000);
             return students.Where(predicate);
         }
-       
+
+        public async Task<IEnumerable<Student>> FindAsync(Expression<Func<Student, bool>> predicate)
+        {
+            return await Task.Run(() => 
+            {
+                Thread.Sleep(5000);
+                return students.Where(predicate);                
+            });           
+        }
+
         public Student Get(int id, params string[] includes)
         {
             IQueryable<Student> query = students;

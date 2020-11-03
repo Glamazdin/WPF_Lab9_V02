@@ -102,6 +102,8 @@ namespace Lab9_V02_Business.Managers
         /// <param name="groupId">Id группы</param>
         /// <returns></returns>
         public ICollection<Student> GetStudentsOfGroup(int groupId) =>
-            studentRepository.Find(s => s.GroupId == groupId).ToList();       
+            studentRepository.Find(s => s.GroupId == groupId).ToList();
+        public async Task<IEnumerable<Student>> GetStudentsOfGroupAsync(int groupId) =>
+           await studentRepository.FindAsync(s => s.GroupId == groupId);
     }
 }

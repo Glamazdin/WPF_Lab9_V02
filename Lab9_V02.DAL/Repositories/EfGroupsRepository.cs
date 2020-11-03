@@ -6,6 +6,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace Lab9_V02.DAL.Repositories
 {
@@ -36,7 +37,12 @@ namespace Lab9_V02.DAL.Repositories
         {
             throw new NotImplementedException();
         }
-       
+
+        public Task<IEnumerable<Group>> FindAsync(Expression<Func<Group, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
         public Group Get(int id, params string[] includes)
         {
             IQueryable<Group> query = groups;

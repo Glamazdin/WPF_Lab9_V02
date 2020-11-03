@@ -59,16 +59,18 @@ namespace Lab9_V02.ViewModels
         #region Получение списка студентов группы
         private ICommand _getStudentsCommand;
         public ICommand GetStudentsCommand =>
-            _getStudentsCommand ?? new RelayCommand(OnGetStudentExecuted);
+            _getStudentsCommand ??= new RelayCommand(OnGetStudentExecuted);
 
         /// <summary>
         /// делегат для метода Execute команды GetStudentsCommand
         /// </summary>
         /// <param name="id">Id группы</param>
-        private void OnGetStudentExecuted(object id)
+        private async void OnGetStudentExecuted(object id)
         {                  
             Students.Clear();
-            var students = groupManager.GetStudentsOfGroup((int)id);
+            var students = groupManager
+                .GetStudentsOfGroup((int)id);
+              
             foreach (var student in students)
                 Students.Add(student);
         }
@@ -77,7 +79,7 @@ namespace Lab9_V02.ViewModels
         #region Добавление студента
         private ICommand _newStudentCommand;
         public ICommand NewStudentCommand =>
-            _newStudentCommand??new RelayCommand(OnNewStudentExecuted);
+            _newStudentCommand??= new RelayCommand(OnNewStudentExecuted);
 
         private void OnNewStudentExecuted(object id)
         {
@@ -105,7 +107,7 @@ namespace Lab9_V02.ViewModels
         #region Редактирование студента
         private ICommand _editStudentCommand;
         public ICommand EditStudentCommand =>
-            _editStudentCommand ?? 
+            _editStudentCommand ??=
                 new RelayCommand(OnEditStudentExecuted, EditStudentCanExecute);
         // Проверка возможности редактирования
         private bool EditStudentCanExecute(object p) =>

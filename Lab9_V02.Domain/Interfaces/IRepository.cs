@@ -12,6 +12,7 @@ namespace Lab9_V02.Domain.Interfaces
         IQueryable<TEntity> GetAll();
         TEntity Get(int id, params string[] includes);
         IQueryable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
         void Create(TEntity entity);        
         void Update(TEntity entity);        
         bool Delete(int id);

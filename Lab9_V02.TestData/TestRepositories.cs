@@ -38,6 +38,11 @@ namespace Lab9_V02.TestData
             return students.Where(filter).AsQueryable();
         }
 
+        public Task<IEnumerable<Student>> FindAsync(Expression<Func<Student, bool>> predicate)
+        {
+            throw new NotImplementedException();
+        }
+
         public Student Get(int id, params string[] includes)
         {
             throw new NotImplementedException();
@@ -131,6 +136,11 @@ namespace Lab9_V02.TestData
         public void Update(Group entity)
         {
             
+        }
+
+        public Task<IEnumerable<Group>> FindAsync(Expression<Func<Group, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }
